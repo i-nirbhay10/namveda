@@ -7,6 +7,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DonationBanner } from "@/components/donation-banner";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { AdBanner } from "@/components/ad-banner";
 import Script from "next/script";
 
@@ -40,7 +41,7 @@ export default function RootLayout({
             <main className="flex-1 overflow-auto">
               {/* Mobile Donation Banner */}
               <DonationBanner className="md:hidden" />
-
+              <GoogleAnalytics />
               <div className="flex">
                 <div className="flex-1">{children}</div>
 
