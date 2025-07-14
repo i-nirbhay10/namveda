@@ -1,15 +1,14 @@
 interface SiblingFilters {
-  existingNames: string[];
-  newBabyGender: string;
-  matchingPreferences: string[];
+  existingNames: string[]
+  newBabyGender: string
+  matchingPreferences: string[]
 }
 
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 export async function generateSiblingNames(filters: SiblingFilters) {
-  const prompt = buildSiblingPrompt(filters);
+  const prompt = buildSiblingPrompt(filters)
 
   try {
     const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
@@ -46,33 +45,29 @@ Ensure suggestions:
           },
         ],
       }),
-    });
+    })
 
-    const data = await response.json();
+    const data = await response.json()
+    const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || ""
 
-    const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    console.log(rawText);
+    const cleanedText = rawText.replace(/```json\n?|\n?```/g, "").trim()
+    const suggestions = JSON.parse(cleanedText)
 
-    const cleanedText = rawText.replace(/```json\n?|\n?```/g, "").trim();
-    const suggestions = JSON.parse(cleanedText);
-
-    return suggestions.slice(0, 12);
+    return suggestions.slice(0, 12)
   } catch (error) {
-    console.error("Error generating sibling names:", error);
-    return getFallbackSiblingNames(filters.newBabyGender);
+    console.error("Error generating sibling names:", error)
+    return getFallbackSiblingNames(filters.newBabyGender)
   }
 }
 
 function buildSiblingPrompt(filters: SiblingFilters): string {
-  let prompt = `Generate 12 perfect sibling names that harmonize with these existing children's names:\n\n`;
+  let prompt = `Generate 12 perfect sibling names that harmonize with these existing children's names:\n\n`
 
-  prompt += `Existing siblings: ${filters.existingNames.join(", ")}\n`;
-  prompt += `New baby gender: ${filters.newBabyGender}\n`;
+  prompt += `Existing siblings: ${filters.existingNames.join(", ")}\n`
+  prompt += `New baby gender: ${filters.newBabyGender}\n`
 
   if (filters.matchingPreferences.length > 0) {
-    prompt += `Prioritize these matching styles: ${filters.matchingPreferences.join(
-      ", "
-    )}\n`;
+    prompt += `Prioritize these matching styles: ${filters.matchingPreferences.join(", ")}\n`
   }
 
   prompt += `\nAnalyze the existing names for:
@@ -90,9 +85,9 @@ Create sibling names that:
 - Follow similar rhythmic or phonetic patterns
 - Create a balanced and beautiful sibling set
 
-For each suggestion, explain specifically why it's a perfect match for the existing sibling names.`;
+For each suggestion, explain specifically why it's a perfect match for the existing sibling names.`
 
-  return prompt;
+  return prompt
 }
 
 function getFallbackSiblingNames(gender: string) {
@@ -127,9 +122,7 @@ function getFallbackSiblingNames(gender: string) {
         matchReason: "Nature-inspired name with universal appeal",
       },
     ],
-  };
+  }
 
-  return (
-    fallbackNames[gender as keyof typeof fallbackNames] || fallbackNames.unisex
-  );
+  return fallbackNames[gender as keyof typeof fallbackNames] || fallbackNames.unisex
 }

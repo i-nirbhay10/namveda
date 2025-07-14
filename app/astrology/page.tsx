@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,7 +19,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Star, Moon, Sun, Sparkles, Loader2, Volume2 } from "lucide-react";
+import { Star, Moon, Sun, Sparkles, Loader2 } from "lucide-react";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { AdBanner } from "@/components/ad-banner";
 import { generateAstrologicalNames } from "@/lib/astrology-generator";
 import {
   calculateNumerology,
@@ -124,112 +126,61 @@ export default function AstrologyPage() {
     }
   };
 
-  // const handlePronunciation = (suggestion: any) => {
-  //   if ("speechSynthesis" in window) {
-  //     const utterance = new SpeechSynthesisUtterance(suggestion.meaning);
-  //     utterance.rate = 0.8;
-  //     speechSynthesis.speak(utterance);
-  //   } else {
-  //     toast({
-  //       title: "Speech not supported",
-  //       description: "Your browser doesn't support text-to-speech.",
-  //       variant: "destructive",
-  //     });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const loadVoices = () => {
-  //     const voices = window.speechSynthesis.getVoices();
-  //     console.log("Available voices:");
-  //     voices.forEach((voice, index) => {
-  //       console.log(
-  //         `${index + 1}. Name: ${voice.name}, Lang: ${voice.lang}, Default: ${
-  //           voice.default
-  //         }`
-  //       );
-  //     });
-  //   };
-
-  //   // Some browsers (like Chrome) load voices asynchronously
-  //   if (window.speechSynthesis.onvoiceschanged !== undefined) {
-  //     window.speechSynthesis.onvoiceschanged = loadVoices;
-  //   }
-
-  //   // Also call it once in case it's already loaded
-  //   loadVoices();
-  // }, []);
-
-  const handlePronunciation = (suggestion: any) => {
-    if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(suggestion.name);
-      utterance.rate = 0.8;
-
-      // Load and assign a specific voice
-      const voices = speechSynthesis.getVoices();
-      const selectedVoice = voices.find(
-        (voice) => voice.name === "Google हिन्दी" // <-- change this as needed
-      );
-
-      if (selectedVoice) {
-        utterance.voice = selectedVoice;
-      }
-
-      speechSynthesis.speak(utterance);
-    } else {
-      toast({
-        title: "Speech not supported",
-        description: "Your browser doesn't support text-to-speech.",
-        variant: "destructive",
-      });
-    }
-  };
-
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center gap-4 mb-6">
-        <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Astrology & Numerology Guide
+    <div className="container mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
+      <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <SidebarTrigger className="md:hidden" />
+        <div className="flex-1 min-w-0">
+          <h1 className="text-responsive-xl md:text-responsive-3xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            Astro & Numerology Guide
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-responsive-base text-muted-foreground mt-1 sm:mt-2">
             Discover names aligned with celestial influences and numerological
             harmony
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Mobile In-Content Ad */}
+      {/* <AdBanner slot="in-content" className="md:hidden mb-4" /> */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Input Form */}
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Star className="h-5 w-5" />
+        <div className="space-y-4 sm:space-y-6">
+          <Card className="card-mobile-optimized sm:p-0">
+            <CardHeader className="pb-4 sm:pb-6">
+              <CardTitle className="flex items-center gap-2 text-responsive-lg">
+                <Star className="h-4 w-4 sm:h-5 sm:w-5" />
                 Birth Details
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-responsive-sm">
                 Enter birth information for astrological analysis
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="birthDate">Birth Date *</Label>
+                <Label htmlFor="birthDate" className="text-responsive-sm">
+                  Birth Date *
+                </Label>
                 <Input
                   id="birthDate"
                   type="date"
                   value={birthDate}
                   onChange={(e) => setBirthDate(e.target.value)}
+                  className="text-responsive-sm"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="birthTime">Birth Time (Optional)</Label>
+                <Label htmlFor="birthTime" className="text-responsive-sm">
+                  Birth Time (Optional)
+                </Label>
                 <Input
                   id="birthTime"
                   type="time"
                   value={birthTime}
                   onChange={(e) => setBirthTime(e.target.value)}
+                  className="text-responsive-sm"
                 />
                 <p className="text-xs text-muted-foreground">
                   More accurate for Vedic astrology calculations
@@ -237,22 +188,25 @@ export default function AstrologyPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="birthPlace">Birth Place (Optional)</Label>
+                <Label htmlFor="birthPlace" className="text-responsive-sm">
+                  Birth Place (Optional)
+                </Label>
                 <Input
                   id="birthPlace"
                   placeholder="City, Country"
                   value={birthPlace}
                   onChange={(e) => setBirthPlace(e.target.value)}
+                  className="text-responsive-sm"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label>Astrology System</Label>
+                <Label className="text-responsive-sm">Astrology System</Label>
                 <Select
                   value={astrologySystem}
                   onValueChange={setAstrologySystem}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="text-responsive-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -266,7 +220,7 @@ export default function AstrologyPage() {
 
               <Button
                 onClick={handleAnalyze}
-                className="w-full bg-transparent"
+                className="w-full bg-transparent text-responsive-sm"
                 variant="outline"
               >
                 <Moon className="mr-2 h-4 w-4" />
@@ -276,49 +230,67 @@ export default function AstrologyPage() {
           </Card>
 
           {astrologyData && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Sun className="h-5 w-5" />
+            <Card className="card-mobile-optimized sm:p-0">
+              <CardHeader className="pb-4 sm:pb-6">
+                <CardTitle className="flex items-center gap-2 text-responsive-lg">
+                  <Sun className="h-4 w-4 sm:h-5 sm:w-5" />
                   Your Astrological Profile
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <CardContent className="space-y-3 sm:space-y-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <Label className="text-sm font-medium">
+                    <Label className="text-responsive-sm font-medium">
                       Life Path Number
                     </Label>
-                    <Badge variant="secondary" className="mt-1">
+                    <Badge
+                      variant="secondary"
+                      className="mt-1 text-xs sm:text-sm"
+                    >
                       {astrologyData.numerology.lifePathNumber}
                     </Badge>
                   </div>
                   <div>
-                    <Label className="text-sm font-medium">Zodiac Sign</Label>
-                    <Badge variant="secondary" className="mt-1">
+                    <Label className="text-responsive-sm font-medium">
+                      Zodiac Sign
+                    </Label>
+                    <Badge
+                      variant="secondary"
+                      className="mt-1 text-xs sm:text-sm"
+                    >
                       {astrologyData.zodiacSign}
                     </Badge>
                   </div>
                   <div>
-                    <Label className="text-sm font-medium">Nakshatra</Label>
-                    <Badge variant="secondary" className="mt-1">
+                    <Label className="text-responsive-sm font-medium">
+                      Nakshatra
+                    </Label>
+                    <Badge
+                      variant="secondary"
+                      className="mt-1 text-xs sm:text-sm"
+                    >
                       {astrologyData.nakshatra}
                     </Badge>
                   </div>
                   <div>
-                    <Label className="text-sm font-medium">
+                    <Label className="text-responsive-sm font-medium">
                       Chinese Zodiac
                     </Label>
-                    <Badge variant="secondary" className="mt-1">
+                    <Badge
+                      variant="secondary"
+                      className="mt-1 text-xs sm:text-sm"
+                    >
                       {astrologyData.chineseZodiac}
                     </Badge>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Gender for Name Generation *</Label>
+                  <Label className="text-responsive-sm">
+                    Gender for Name Generation *
+                  </Label>
                   <Select value={gender} onValueChange={setGender}>
-                    <SelectTrigger>
+                    <SelectTrigger className="text-responsive-sm">
                       <SelectValue placeholder="Select gender" />
                     </SelectTrigger>
                     <SelectContent>
@@ -332,7 +304,7 @@ export default function AstrologyPage() {
                 <Button
                   onClick={handleGenerate}
                   disabled={isGenerating}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-responsive-sm"
                 >
                   {isGenerating ? (
                     <>
@@ -352,10 +324,12 @@ export default function AstrologyPage() {
         </div>
 
         {/* Results */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Astrologically Aligned Names</CardTitle>
-            <CardDescription>
+        <Card className="card-mobile-optimized sm:p-0">
+          <CardHeader className="pb-4 sm:pb-6">
+            <CardTitle className="text-responsive-lg">
+              Astrologically Aligned Names
+            </CardTitle>
+            <CardDescription className="text-responsive-sm">
               {suggestions.length > 0
                 ? `${suggestions.length} names aligned with your birth chart`
                 : "Names aligned with your astrological profile will appear here"}
@@ -363,72 +337,70 @@ export default function AstrologyPage() {
           </CardHeader>
           <CardContent>
             {isGenerating ? (
-              <div className="text-center py-12">
-                <Star className="h-12 w-12 mx-auto mb-4 opacity-50 animate-pulse" />
-                <p className="text-muted-foreground">
+              <div className="text-center py-8 sm:py-12">
+                <Star className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-4 opacity-50 animate-pulse" />
+                <p className="text-responsive-sm text-muted-foreground">
                   Consulting the stars and calculating cosmic harmony...
                 </p>
               </div>
             ) : suggestions.length > 0 ? (
-              <div className="space-y-4 max-h-[600px] overflow-y-auto">
+              <div className="space-y-3 sm:space-y-4 max-h-[400px] sm:max-h-[600px] overflow-y-auto">
                 {suggestions.map((suggestion, index) => (
-                  <Card
-                    key={index}
-                    className="hover:shadow-md transition-shadow"
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <h3 className="text-xl font-bold text-primary">
-                            {suggestion.name}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            /{suggestion.pronunciation}/
-                          </p>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              handlePronunciation(suggestion);
-                            }}
-                            className="h-8 w-8 p-0"
+                  <div key={index}>
+                    <Card className="hover:shadow-md transition-shadow">
+                      <CardContent className="p-3 sm:p-4">
+                        <div className="flex items-start justify-between mb-2 sm:mb-3">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-responsive-lg font-bold text-primary truncate">
+                              {suggestion.name}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground">
+                              /{suggestion.pronunciation}/
+                            </p>
+                          </div>
+                          <Badge
+                            variant="secondary"
+                            className="text-xs flex-shrink-0 ml-2"
                           >
-                            <Volume2 className="h-4 w-4" />
-                          </Button>
-                          <Badge variant="secondary" className="text-xs">
                             {suggestion.gender}
                           </Badge>
                         </div>
-                      </div>
 
-                      <div className="space-y-2">
-                        <p className="text-sm">
-                          <span className="font-medium">Meaning:</span>{" "}
-                          {suggestion.meaning}
-                        </p>
-                        <p className="text-sm">
-                          <span className="font-medium">Origin:</span>{" "}
-                          {suggestion.origin}
-                        </p>
-                        <div className="bg-purple-50 dark:bg-purple-950 p-2 rounded-md">
-                          <p className="text-sm">
-                            <span className="font-medium text-purple-700 dark:text-purple-300">
-                              Astrological Significance:
-                            </span>{" "}
-                            {suggestion.astrologicalSignificance}
+                        <div className="space-y-2">
+                          <p className="text-responsive-sm">
+                            <span className="font-medium">Meaning:</span>{" "}
+                            {suggestion.meaning}
                           </p>
+                          <p className="text-responsive-sm">
+                            <span className="font-medium">Origin:</span>{" "}
+                            {suggestion.origin}
+                          </p>
+                          <div className="bg-purple-50 dark:bg-purple-950 p-2 rounded-md">
+                            <p className="text-responsive-sm">
+                              <span className="font-medium text-purple-700 dark:text-purple-300">
+                                Astrological Significance:
+                              </span>{" "}
+                              {suggestion.astrologicalSignificance}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+
+                    {/* In-content ad every 4 results */}
+                    {(index + 1) % 4 === 0 &&
+                      index < suggestions.length - 1 && (
+                        <div className="my-4">
+                          {/* <AdBanner slot="in-content" /> */}
+                        </div>
+                      )}
+                  </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-muted-foreground">
-                <Star className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>
+              <div className="text-center py-8 sm:py-12 text-muted-foreground">
+                <Star className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-4 opacity-50" />
+                <p className="text-responsive-sm">
                   Enter your birth details and analyze your chart to get
                   started!
                 </p>

@@ -6,6 +6,8 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
+import { DonationBanner } from "@/components/donation-banner";
+import { AdBanner } from "@/components/ad-banner";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,14 +32,32 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem={true}
         >
+          {/* Top Ad Banner */}
+          {/* <AdBanner slot="top-banner" className="hidden md:block" /> */}
+
           <SidebarProvider>
             <AppSidebar />
-            <main className="flex-1 overflow-auto">{children}</main>
+            <main className="flex-1 overflow-auto">
+              {/* Mobile Donation Banner */}
+              <DonationBanner className="md:hidden" />
+
+              <div className="flex">
+                <div className="flex-1">{children}</div>
+
+                {/* Desktop Sidebar Ad */}
+                <div className="hidden xl:block w-80 p-4 space-y-4">
+                  <DonationBanner />
+                  {/* <AdBanner slot="sidebar" />
+                  <AdBanner slot="sidebar" />
+                  <AdBanner slot="sidebar" /> */}
+                </div>
+              </div>
+            </main>
           </SidebarProvider>
           <Toaster />
         </ThemeProvider>
 
-        {/* ✅ Add the Razorpay checkout script here */}
+        {/* Razorpay Script */}
         <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="afterInteractive"

@@ -21,7 +21,9 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Loader2, Atom as SidebarTrigger } from "lucide-react";
+import { Sparkles, Loader2 } from "lucide-react";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { AdBanner } from "@/components/ad-banner";
 import { generateNames } from "@/lib/ai-generator";
 import { NameResult } from "@/components/name-result";
 import { useToast } from "@/hooks/use-toast";
@@ -133,36 +135,41 @@ export default function HomePage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center gap-4 mb-6">
-        <SidebarTrigger className=" animate-spin  " />
-        <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+    <div className="container mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
+      <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <SidebarTrigger className="md:hidden" />
+        <div className="flex-1 min-w-0">
+          <h1 className="text-responsive-2xl md:text-responsive-3xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
             Welcome to Namveda
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-responsive-base text-muted-foreground mt-1 sm:mt-2">
             Discover unique, culturally relevant, and meaningful baby names with
             AI
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Mobile In-Content Ad */}
+      {/* <AdBanner slot="in-content" className="md:hidden mb-4" /> */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Input Form */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5" />
+        <Card className="card-mobile-optimized sm:p-0">
+          <CardHeader className="pb-4 sm:pb-6">
+            <CardTitle className="flex items-center gap-2 text-responsive-lg">
+              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />
               Name Generator
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-responsive-sm">
               Enter your preferences and let AI create perfect name suggestions
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-4 sm:space-y-6">
             {/* Inspirations */}
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">Name Inspirations</Label>
+            <div className="space-y-2 sm:space-y-3">
+              <Label className="text-responsive-sm font-medium">
+                Name Inspirations
+              </Label>
               {inspirations.map((inspiration, index) => (
                 <Input
                   key={index}
@@ -173,15 +180,16 @@ export default function HomePage() {
                   onChange={(e) =>
                     handleInspirationChange(index, e.target.value)
                   }
+                  className="text-responsive-sm"
                 />
               ))}
             </div>
 
             {/* Gender */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Gender *</Label>
+              <Label className="text-responsive-sm font-medium">Gender *</Label>
               <Select value={gender} onValueChange={setGender}>
-                <SelectTrigger>
+                <SelectTrigger className="text-responsive-sm">
                   <SelectValue placeholder="Select gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -193,8 +201,8 @@ export default function HomePage() {
             </div>
 
             {/* Religion */}
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">Religion</Label>
+            <div className="space-y-2 sm:space-y-3">
+              <Label className="text-responsive-sm font-medium">Religion</Label>
               <div className="flex flex-wrap gap-2">
                 {religions.map((religion) => (
                   <div key={religion} className="flex items-center space-x-2">
@@ -203,7 +211,7 @@ export default function HomePage() {
                       checked={selectedReligions.includes(religion)}
                       onCheckedChange={() => handleReligionToggle(religion)}
                     />
-                    <Label htmlFor={religion} className="text-sm">
+                    <Label htmlFor={religion} className="text-xs sm:text-sm">
                       {religion}
                     </Label>
                   </div>
@@ -212,16 +220,18 @@ export default function HomePage() {
             </div>
 
             {/* Style */}
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">Style Preferences</Label>
-              <div className="flex flex-wrap gap-2">
+            <div className="space-y-2 sm:space-y-3">
+              <Label className="text-responsive-sm font-medium">
+                Style Preferences
+              </Label>
+              <div className="flex flex-wrap gap-1 sm:gap-2">
                 {styles.map((style) => (
                   <Badge
                     key={style}
                     variant={
                       selectedStyles.includes(style) ? "default" : "outline"
                     }
-                    className="cursor-pointer"
+                    className="cursor-pointer text-xs sm:text-sm"
                     onClick={() => handleStyleToggle(style)}
                   >
                     {style}
@@ -231,9 +241,11 @@ export default function HomePage() {
             </div>
 
             {/* Advanced Options */}
-            <div className="space-y-4">
-              <Label className="text-sm font-medium">Advanced Options</Label>
-              <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-3 sm:space-y-4">
+              <Label className="text-responsive-sm font-medium">
+                Advanced Options
+              </Label>
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 <div>
                   <Label htmlFor="minLength" className="text-xs">
                     Min Length
@@ -244,6 +256,7 @@ export default function HomePage() {
                     placeholder="3"
                     value={minLength}
                     onChange={(e) => setMinLength(e.target.value)}
+                    className="text-responsive-sm"
                   />
                 </div>
                 <div>
@@ -256,6 +269,7 @@ export default function HomePage() {
                     placeholder="12"
                     value={maxLength}
                     onChange={(e) => setMaxLength(e.target.value)}
+                    className="text-responsive-sm"
                   />
                 </div>
                 <div>
@@ -270,6 +284,7 @@ export default function HomePage() {
                     onChange={(e) =>
                       setStartingLetter(e.target.value.toUpperCase())
                     }
+                    className="text-responsive-sm"
                   />
                 </div>
                 <div>
@@ -284,6 +299,7 @@ export default function HomePage() {
                     onChange={(e) =>
                       setEndingLetter(e.target.value.toUpperCase())
                     }
+                    className="text-responsive-sm"
                   />
                 </div>
               </div>
@@ -297,6 +313,7 @@ export default function HomePage() {
                   value={desiredMeaning}
                   onChange={(e) => setDesiredMeaning(e.target.value)}
                   rows={2}
+                  className="text-responsive-sm"
                 />
               </div>
             </div>
@@ -304,7 +321,7 @@ export default function HomePage() {
             <Button
               onClick={handleGenerate}
               disabled={isGenerating}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-responsive-sm"
             >
               {isGenerating ? (
                 <>
@@ -322,10 +339,12 @@ export default function HomePage() {
         </Card>
 
         {/* Results */}
-        <Card className="bg-[#000001]">
-          <CardHeader>
-            <CardTitle>Name Suggestions</CardTitle>
-            <CardDescription>
+        <Card className="card-mobile-optimized sm:p-0">
+          <CardHeader className="pb-4 sm:pb-6">
+            <CardTitle className="text-responsive-lg">
+              Name Suggestions
+            </CardTitle>
+            <CardDescription className="text-responsive-sm">
               {suggestions.length > 0
                 ? `${suggestions.length} unique names generated for you`
                 : "Your AI-generated names will appear here"}
@@ -333,26 +352,35 @@ export default function HomePage() {
           </CardHeader>
           <CardContent>
             {isGenerating ? (
-              <div className="text-center  flex flex-col justify-center lg:h-[870px] py-12">
+              <div className="text-center flex flex-col justify-center py-8 sm:py-12 lg:h-[870px]">
                 <img
                   src="/search.gif"
                   alt="Generating..."
-                  className="mx-auto w-160 h-160"
+                  className="mx-auto w-32 h-32 sm:w-40 sm:h-40"
                 />
-                <p className="mt-4 text-muted-foreground">
+                <p className="mt-4 text-responsive-sm text-muted-foreground">
                   Generating your name suggestions...
                 </p>
               </div>
             ) : suggestions.length > 0 ? (
-              <div className="space-y-4 max-h-[750px] lg:max-h-[870px] overflow-y-auto">
+              <div className="space-y-3 sm:space-y-4 max-h-[400px] sm:max-h-[750px] lg:max-h-[870px] overflow-y-auto">
                 {suggestions.map((suggestion, index) => (
-                  <NameResult key={index} suggestion={suggestion} />
+                  <div key={index}>
+                    <NameResult suggestion={suggestion} />
+                    {/* In-content ad every 5 results */}
+                    {(index + 1) % 5 === 0 &&
+                      index < suggestions.length - 1 && (
+                        <div className="my-4">
+                          {/* <AdBanner slot="in-content" /> */}
+                        </div>
+                      )}
+                  </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 flex flex-col justify-center lg:h-[870px] text-muted-foreground">
-                <Sparkles className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>
+              <div className="text-center py-8 sm:py-12 flex flex-col justify-center lg:h-[870px] text-muted-foreground">
+                <Sparkles className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-4 opacity-50" />
+                <p className="text-responsive-sm">
                   Fill in your preferences and click "Generate Names" to get
                   started!
                 </p>
@@ -360,31 +388,6 @@ export default function HomePage() {
             )}
           </CardContent>
         </Card>
-
-        {/* <Card>
-          <CardHeader>
-            <CardTitle>Name Suggestions</CardTitle>
-            <CardDescription>
-              {suggestions.length > 0
-                ? `${suggestions.length} unique names generated for you`
-                : "Your AI-generated names will appear here"}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {suggestions.length > 0 ? (
-              <div className="space-y-4 max-h-[600px] overflow-y-auto">
-                {suggestions.map((suggestion, index) => (
-                  <NameResult key={index} suggestion={suggestion} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12 text-muted-foreground">
-                <Sparkles className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Fill in your preferences and click "Generate Names" to get started!</p>
-              </div>
-            )}
-          </CardContent>
-        </Card> */}
       </div>
     </div>
   );

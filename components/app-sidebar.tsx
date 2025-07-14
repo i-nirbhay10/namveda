@@ -1,12 +1,4 @@
-import {
-  Sparkles,
-  Star,
-  Gift,
-  Atom,
-  Users,
-  Heart,
-  TrendingUp,
-} from "lucide-react";
+import { Sparkles, Star, Gift, Atom, Users } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -27,11 +19,6 @@ const menuItems = [
     url: "/",
     icon: Sparkles,
   },
-  // {
-  //   title: "Favorites",
-  //   url: "/favorites",
-  //   icon: Heart,
-  // },
   {
     title: "Sibling Matcher",
     url: "/sibling-matcher",
@@ -42,12 +29,6 @@ const menuItems = [
     url: "/astrology",
     icon: Star,
   },
-
-  // {
-  //   title: "Name Trends",
-  //   url: "/trends",
-  //   icon: TrendingUp,
-  // },
   {
     title: "Support Us",
     url: "/donate",
