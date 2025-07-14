@@ -193,7 +193,7 @@
   input,
   select,
   textarea {
-    min-height: 44px;
+    max-height: 44px;
   }
 
   /* Optimize card spacing on mobile */
