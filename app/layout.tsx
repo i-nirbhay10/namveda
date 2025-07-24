@@ -59,10 +59,11 @@ export default function RootLayout({
         </ThemeProvider>
 
         {/* Razorpay Script */}
-        <Script
+        {/* <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="afterInteractive"
-        />
+        /> */}
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
       </body>
     </html>
   );
