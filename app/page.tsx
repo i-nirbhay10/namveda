@@ -352,13 +352,13 @@ export default function HomePage() {
           </CardHeader>
           <CardContent>
             {isGenerating ? (
-              <div className="text-center flex flex-col justify-center py-8 sm:py-12 lg:h-[870px]">
+              <div className="text-center  flex flex-col justify-center lg:h-[870px] py-12">
                 <img
                   src="/search.gif"
                   alt="Generating..."
-                  className="mx-auto w-32 h-32 sm:w-40 sm:h-40"
+                  className="mx-auto w-160 h-160"
                 />
-                <p className="mt-4 text-responsive-sm text-muted-foreground">
+                <p className="mt-4 text-muted-foreground">
                   Generating your name suggestions...
                 </p>
               </div>
