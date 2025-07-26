@@ -49,12 +49,13 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
+          {/* <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
             <Atom className="h-4 w-4 text-white" />
-          </div>
+          </div> */}
           <div>
-            <h1 className="text-lg font-bold">Namveda</h1>
-            <p className="text-xs text-muted-foreground">AI Name Generator</p>
+            <img src="/namvedalog.png" alt="logo" className="mx-auto w-52 " />
+            {/* <h1 className="text-lg font-bold">Namveda</h1>
+            <p className="text-xs text-muted-foreground">AI Name Generator</p> */}
           </div>
         </div>
       </SidebarHeader>
